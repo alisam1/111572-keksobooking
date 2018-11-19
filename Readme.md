@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Мария Машнина](https://up.htmlacademy.ru/javascript/16/user/111572).
-* Наставник: `Неизвестно`.
+* Наставник: Нет.
 
 ---
 
