@@ -252,3 +252,24 @@ mainPin.addEventListener('click', function() {
 adForm.addEventListener('mouseup', function() {
   map.classList.remove('ad-form--disabled');
 });
+
+//module4-task1
+
+var mainPin = document.querySelector(".map__pin--main");
+var map = document.querySelector("map");
+var adForm = document.querySelector(".ad-form");
+var mapFiltres = document.querySelector(".map__filters");
+var adressInput = adForm.querySelector("#adress");
+
+var mainPinCenterCoords = {
+  x: parseInt(mainPin.style.left, 10) + mainPin.offsetWidth / 2,
+  y: parseInt(mainPin.style.top, 10) + mainPin.offsetHeight / 2
+};
+
+mainPin.addEventListener('mouseup', function() {
+  map.classList.remove('map--faded');
+});
+
+adForm.addEventListener('mouseup', function() {
+  map.classList.remove('ad-form--disabled');
+});
