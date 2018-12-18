@@ -395,3 +395,72 @@ timesIn.addEventListener('change', function (evt) {
 timesOut.addEventListener('change', function (evt) {
   timesIn.value = evt.target.value;
 });
+
+//Module5-Task1
+
+var startCoords = {};
+
+function mainPinMouseMoveHandler(evt) {
+  evt.preventDefault();
+
+  var shift = {
+    x: evt.clientX - startCoords.x,
+    y: evt.clientY - startCoords.y
+  };
+
+  startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  if (mainPin.offsetTop + shift.y < Y_MIN) {
+    mainPin.style.top = Y_MIN + 'px';
+  } else if (mainPin.offsetTop + shift.y > Y_MAX) {
+    mainPin.style.top = Y_MAX + 'px';
+  } else {
+    mainPin.style.top = (mainPin.offsetTop + shift.y) + 'px';
+  }
+
+  if (mainPin.offsetLeft + shift.x < X_MIN) {
+    mainPin.style.left = X_MIN + 'px';
+  } else if (mainPin.offsetLeft + shift.x > X_MAX - mainPin.offsetWidth) {
+    mainPin.style.left = (X_MAX - mainPin.offsetWidth) + 'px';
+  } else {
+    mainPin.style.left = (mainPin.offsetLeft + shift.x) + 'px';
+  }
+
+  changeAddressValue();
+}
+
+function activatePage() {
+  if (map.classList.contains('map--faded')) {
+    toggleMapState();
+    toggleFormState(adFormElement);
+    toggleFormState(filtersFormElement);
+    renderPins(data);
+  }
+}
+
+function mainPinMouseUpHandler(evt) {
+  evt.preventDefault();
+
+  document.removeEventListener('mousemove', mainPinMouseMoveHandler);
+  document.removeEventListener('mouseup', mainPinMouseUpHandler);
+
+  activatePage();
+  changeAddressValue();
+}
+
+function mainPinMouseDownHandler(evt) {
+  evt.preventDefault();
+
+  startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  document.addEventListener('mousemove', mainPinMouseMoveHandler);
+  document.addEventListener('mouseup', mainPinMouseUpHandler);
+}
+
+mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
