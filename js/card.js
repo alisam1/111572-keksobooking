@@ -65,29 +65,65 @@
     var descriptionElement = cardElement.querySelector('.popup__description');
     var photosListElement = cardElement.querySelector('.popup__photos');
     var popupCloseElement = cardElement.querySelector('.popup__close');
+
     avatarElement.src = infoCard.author.avatar;
     titleElement.textContent = infoCard.offer.title;
     addressElement.textContent = infoCard.offer.address;
     priceElement.innerHTML = infoCard.offer.price + '&#x20bd;<span>/ночь</span>';
     typeElement.textContent = window.form.TYPES[infoCard.offer.type];
-    capacityElement.textContent = infoCard.offer.rooms + getCardCapacityRooms(infoCard.offer.rooms) + infoCard.offer.guests + (infoCard.offer.guests === 1 ? ' гостя' : ' гостей');
-    timeElement.textContent = 'Заезд после ' + infoCard.offer.checkin + ', выезд до ' + infoCard.offer.checkout;
-    featuresListElement.innerHTML = '';
-    featuresListElement.appendChild(createFeaturesList(infoCard.offer.features));
-    descriptionElement.textContent = infoCard.offer.description;
-    photosListElement.innerHTML = '';
-    photosListElement.appendChild(createPhotosList(infoCard.offer.photos));
+
+    // если информации о комнатах и гостях нет - удалить блок
+    if (infoCard.offer.rooms === 0 && infoCard.offer.guests === 0) {
+      capacityElement.remove();
+    } else {
+      capacityElement.textContent = infoCard.offer.rooms + getCardCapacityRooms(infoCard.offer.rooms) + infoCard.offer.guests + (infoCard.offer.guests === 1 ? ' гостя' : ' гостей');
+    }
+
+    // если времени заезда и выезда нет - удалить блок
+    if (infoCard.offer.checkin === '0:00' && infoCard.offer.checkout === '0:00') {
+      timeElement.remove();
+    } else {
+      timeElement.textContent = 'Заезд после ' + infoCard.offer.checkin + ', выезд до ' + infoCard.offer.checkout;
+    }
+
+    // если удобств нет - удалить блок
+    if (infoCard.offer.features.length === 0) {
+      featuresListElement.remove();
+    } else {
+      featuresListElement.innerHTML = '';
+      featuresListElement.appendChild(createFeaturesList(infoCard.offer.features));
+    }
+
+    // если описания нет - удалить блок
+    if (!infoCard.offer.description) {
+      descriptionElement.remove();
+    } else {
+      descriptionElement.textContent = infoCard.offer.description;
+    }
+
+    // если фотографий нет - удалить блок
+    if (infoCard.offer.photos.length === 0) {
+      photosListElement.remove();
+    } else {
+      photosListElement.innerHTML = '';
+      photosListElement.appendChild(createPhotosList(infoCard.offer.photos));
+    }
+
     popupCloseElement.addEventListener('click', function () {
-      if (callback) {
-        callback();
+      if (cardElement) {
+        if (callback) {
+          callback();
+        }
+
+        cardElement.remove();
       }
-      cardElement.remove();
     });
 
     return cardElement;
   }
 
   window.card = {
-    createCard: createCard
+    create: createCard
+
   };
 })();

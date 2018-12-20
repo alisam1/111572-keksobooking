@@ -107,6 +107,6 @@
     getMainPinCoordinates: getMainPinCoordinates,
     setPinMouseUpCallback: setPinMouseUpCallback,
     setPinMouseMoveCallback: setPinMouseMoveCallback,
-    toggleMapState: toggleMapState
+    toggleState: toggleMapState
   };
 })();

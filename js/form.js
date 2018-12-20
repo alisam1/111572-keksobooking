@@ -135,6 +135,39 @@ timesOut.addEventListener('change', function (evt) {
   timesIn.value = evt.target.value;
 });
 
+adForm.addEventListener('submit', function (evt) {
+  window.backend.upload(new FormData(adFormElement), successHandler, errorHandler);
+  evt.preventDefault();
+});
+
+function setSuccessHandlerCallback(callback) {
+  successHandlerCallback = callback;
+}
+
+function setResetFormCallback(callback) {
+  resetFormCallback = callback;
+}
+
+adForm.addEventListener('reset', function () {
+  resetFormCallback();
+});
+
+function successHandler() {
+  successHandlerCallback();
+  window.message.showSuccessMessage();
+}
+
+function errorHandler() {
+  window.message.showErrorMessage();
+}
+
+function resetForms() {
+  var forms = document.querySelectorAll('form');
+  for (var i = 0; i < forms.length; i++) {
+    forms[i].reset();
+  }
+}
+
 function mainPinMouseupHandler(){
   deleteDisabled();
   typeSelectChangeHandler();
@@ -143,11 +176,17 @@ function mainPinMouseupHandler(){
   mainPin.removeEventListener('mouseup', mainPinMouseupHandler);
 }
 
+  function toggleAllForms() {
+    toggleFormState(adForm);
+    toggleFormState(filtersForm);
+}
+
 window.form = {
     TYPES: TYPES,
-    adForm: adForm,
-    filtersForm: filtersForm,
     setAddress: setAddress,
-    toggleFormState: toggleFormState
+    toggleAll: toggleAllForms,
+    setSuccessHandlerCallback: setSuccessHandlerCallback,
+    setResetFormCallback: setResetFormCallback,
+    reset: resetForms
 };
 })();
