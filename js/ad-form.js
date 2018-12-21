@@ -55,15 +55,15 @@
     checkRoomsAndCapacity();
   });
 
+  function setResetFormCallback(callback) {
+    resetFormCallback = callback;
+  }
+
   function setSubmitHandler(formSubmitHandler) {
     adForm.addEventListener('submit', function (evt) {
       evt.preventDefault();
       formSubmitHandler(evt);
     });
-  }
-
-  function setResetFormCallback(callback) {
-    resetFormCallback = callback;
   }
 
   adForm.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
