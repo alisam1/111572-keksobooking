@@ -30,11 +30,13 @@
     return xhr;
   }
 
+
   function upload(data, loadHandler, errorHandler) {
     var xhr = createRequest(loadHandler, errorHandler);
     xhr.open('POST', UPLOAD_URL);
     xhr.send(data);
   }
+
 
   function load(loadHandler, errorHandler) {
     var xhr = createRequest(loadHandler, errorHandler);

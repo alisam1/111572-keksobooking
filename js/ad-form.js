@@ -23,12 +23,12 @@
   };
 
   var adForm = document.querySelector('.ad-form');
-  var addressInputElement = adForm.querySelector('#address');
+  var addressInput = adForm.querySelector('#address');
   var typeElement = adForm.querySelector('#type');
   var priceElement = adForm.querySelector('#price');
-  var timeFieldsetElement = adForm.querySelector('.ad-form__element--time');
-  var roomsNumberElement = adForm.querySelector('#room_number');
-  var capacityElement = adForm.querySelector('#capacity');
+  var timeFieldset = adForm.querySelector('.ad-form__element--time');
+  var roomsNumber = adForm.querySelector('#room_number');
+  var capacity = adForm.querySelector('#capacity');
   var resetFormCallback = null;
 
   window.form.toggleInputState(adForm);
@@ -37,9 +37,9 @@
 
   typeElement.addEventListener('change', typeSelectChangeHandler);
 
-  timeFieldsetElement.addEventListener('change', function (evt) {
+  timeFieldset.addEventListener('change', function (evt) {
     var target = evt.target;
-    var selects = timeFieldsetElement.querySelectorAll('select');
+    var selects = timeFieldset.querySelectorAll('select');
     for (var i = 0; i < selects.length; i++) {
       if (syncTimeSelects.indexOf(selects[i].id) !== -1) {
         selects[i].value = target.value;
@@ -47,11 +47,11 @@
     }
   });
 
-  roomsNumberElement.addEventListener('change', function () {
+  roomsNumber.addEventListener('change', function () {
     checkRoomsAndCapacity();
   });
 
-  capacityElement.addEventListener('change', function () {
+  capacity.addEventListener('change', function () {
     checkRoomsAndCapacity();
   });
 
@@ -72,7 +72,7 @@
   });
 
   function setAddress(coords) {
-    addressInputElement.value = coords.x + ', ' + coords.y;
+    addressInput.value = coords.x + ', ' + coords.y;
   }
 
   function typeSelectChangeHandler() {
@@ -87,8 +87,8 @@
   }
 
   function checkRoomsAndCapacity() {
-    var roomsOptionValueLastDigit = +roomsNumberElement.value % 100;
-    var capacityOptionValue = +capacityElement.value;
+    var roomsOptionValueLastDigit = +roomsNumber.value % 100;
+    var capacityOptionValue = +capacity.value;
     var errorMessage = '';
 
     if (roomsOptionValueLastDigit < 2 && roomsOptionValueLastDigit !== capacityOptionValue) {
@@ -97,15 +97,15 @@
       errorMessage = 'Введите допустимое количество гостей';
     }
 
-    capacityElement.setCustomValidity(errorMessage);
+    capacity.setCustomValidity(errorMessage);
   }
 
   function resetAdForm() {
-    adFormElement.reset();
+    adForm.reset();
   }
 
   function toggleAdFormState() {
-    window.form.toggleState(adFormElement);
+    window.form.toggleState(adForm);
   }
 
   window.adForm = {

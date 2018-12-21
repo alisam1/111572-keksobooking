@@ -57,6 +57,7 @@
     window.map.toggleState();
     window.adForm.toggle();
     window.filtersForm.toggle();
+    // передаём обработчик для изменения фильтров
     window.filtersForm.setfilterChangeHandler(function () {
       window.utils.debounce(function () {
         updatePins(adInfoObjects);

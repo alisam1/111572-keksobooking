@@ -70,23 +70,23 @@
     titleElement.textContent = infoCard.offer.title;
     addressElement.textContent = infoCard.offer.address;
     priceElement.innerHTML = infoCard.offer.price + '&#x20bd;<span>/ночь</span>';
-    typeElement.textContent = window.form.TYPES[infoCard.offer.type];
+    typeElement.textContent = window.adForm.types[infoCard.offer.type].translation;
 
-    // если информации о комнатах и гостях нет - удалить блок
+
     if (infoCard.offer.rooms === 0 && infoCard.offer.guests === 0) {
       capacityElement.remove();
     } else {
       capacityElement.textContent = infoCard.offer.rooms + getCardCapacityRooms(infoCard.offer.rooms) + infoCard.offer.guests + (infoCard.offer.guests === 1 ? ' гостя' : ' гостей');
     }
 
-    // если времени заезда и выезда нет - удалить блок
+
     if (infoCard.offer.checkin === '0:00' && infoCard.offer.checkout === '0:00') {
       timeElement.remove();
     } else {
       timeElement.textContent = 'Заезд после ' + infoCard.offer.checkin + ', выезд до ' + infoCard.offer.checkout;
     }
 
-    // если удобств нет - удалить блок
+
     if (infoCard.offer.features.length === 0) {
       featuresListElement.remove();
     } else {
@@ -94,14 +94,14 @@
       featuresListElement.appendChild(createFeaturesList(infoCard.offer.features));
     }
 
-    // если описания нет - удалить блок
+
     if (!infoCard.offer.description) {
       descriptionElement.remove();
     } else {
       descriptionElement.textContent = infoCard.offer.description;
     }
 
-    // если фотографий нет - удалить блок
+
     if (infoCard.offer.photos.length === 0) {
       photosListElement.remove();
     } else {
@@ -124,6 +124,5 @@
 
   window.card = {
     create: createCard
-
   };
 })();

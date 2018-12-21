@@ -3,11 +3,11 @@
 (function () {
 
   var filtersForm = document.querySelector('.map__filters');
-  var typeSelectElement = filtersForm.querySelector('#housing-type');
-  var priceSelectElement = filtersForm.querySelector('#housing-price');
-  var roomsSelectElement = filtersForm.querySelector('#housing-rooms');
-  var guestsSelectElement = filtersForm.querySelector('#housing-guests');
-  var featuresFieldsetElement = filtersForm.querySelector('#housing-features');
+  var typeSelect = filtersForm.querySelector('#housing-type');
+  var priceSelect = filtersForm.querySelector('#housing-price');
+  var roomsSelect = filtersForm.querySelector('#housing-rooms');
+  var guestsSelect = filtersForm.querySelector('#housing-guests');
+  var featuresFieldset = filtersForm.querySelector('#housing-features');
 
   var priceLimits = {
     low: 10000,
@@ -18,28 +18,28 @@
 
   function setfilterChangeHandler(callback) {
     var filterChangeHandler = callback;
-    typeSelectElement.addEventListener('change', filterChangeHandler);
-    priceSelectElement.addEventListener('change', filterChangeHandler);
-    roomsSelectElement.addEventListener('change', filterChangeHandler);
-    guestsSelectElement.addEventListener('change', filterChangeHandler);
-    featuresFieldsetElement.addEventListener('change', filterChangeHandler);
+    typeSelect.addEventListener('change', filterChangeHandler);
+    priceSelect.addEventListener('change', filterChangeHandler);
+    roomsSelect.addEventListener('change', filterChangeHandler);
+    guestsSelect.addEventListener('change', filterChangeHandler);
+    featuresFieldset.addEventListener('change', filterChangeHandler);
   }
 
   function resetFiltersForm() {
-    filtersFormElement.reset();
+    filtersForm.reset();
   }
 
   function toggleFiltersFormState() {
-    window.form.toggleState(filtersFormElement);
+    window.form.toggleState(filtersForm);
   }
 
   function isTypeMatch(item) {
-    return item.offer.type === typeSelectElement.value || typeSelectElement.value === 'any';
+    return item.offer.type === typeSelect.value || typeSelect.value === 'any';
   }
 
   function isPriceMatch(item) {
     var isPriceSuited;
-    switch (priceSelectElement.value) {
+    switch (priceSelect.value) {
       case 'any':
         isPriceSuited = true;
         break;
@@ -57,15 +57,15 @@
   }
 
   function isRoomsMatch(item) {
-    return item.offer.rooms === +roomsSelectElement.value || roomsSelectElement.value === 'any';
+    return item.offer.rooms === +roomsSelect.value || roomsSelect.value === 'any';
   }
 
   function isGuestsMatch(item) {
-    return item.offer.guests === +guestsSelectElement.value || guestsSelectElement.value === 'any';
+    return item.offer.guests === +guestsSelect.value || guestsSelect.value === 'any';
   }
 
   function isFeaturesMatch(item) {
-    var checkedFeaturesCollection = featuresFieldsetElement.querySelectorAll('.map__checkbox:checked');
+    var checkedFeaturesCollection = featuresFieldset.querySelectorAll('.map__checkbox:checked');
     var store = {};
     var checkedFeatures = [];
     for (var i = 0; i < item.offer.features.length; i++) {
