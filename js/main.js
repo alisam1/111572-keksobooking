@@ -6,6 +6,7 @@
   var adInfoObjects = [];
 
 
+
   window.adForm.setAddress(window.map.getMainPinCoordinates());
 
   window.map.setPinMouseUpCallback(activatePage);
@@ -21,6 +22,7 @@
   });
 
 
+
   function adFormSubmitHandler(evt) {
     window.backend.upload(new FormData(evt.currentTarget), function () {
       desactivatePage();
@@ -29,6 +31,7 @@
       window.message.showErrorMessage();
     });
   }
+
 
   function activatePage() {
     window.backend.load(loadSuccessHandler, loadErrorHandler);
@@ -57,7 +60,6 @@
     window.map.toggleState();
     window.adForm.toggle();
     window.filtersForm.toggle();
-    // передаём обработчик для изменения фильтров
     window.filtersForm.setfilterChangeHandler(function () {
       window.utils.debounce(function () {
         updatePins(adInfoObjects);
@@ -101,7 +103,7 @@
     return fragment;
   }
 
-  // закрытие открытой карточки по Esc
+  // закрытие popup по Esc
   function documentEscPressHandler(evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       activeCard.remove();

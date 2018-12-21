@@ -18,13 +18,16 @@
 
   mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
 
+
   mainPin.addEventListener('click', function() {
   adForm.classList.remove('ad-form--disabled');
 });
 
+
   function fillMap(element) {
     pinsContainer.appendChild(element);
   }
+
 
   function returnMainPinToStartPosition() {
     mainPin.style.left = mainPinStartCoords.left;
@@ -53,6 +56,7 @@
     }
   }
 
+
   function getMainPinCoordinates() {
     var coords = {
       x: parseInt(mainPin.style.left, 10) + mainPin.offsetWidth / 2,
@@ -63,8 +67,10 @@
       coords.y = parseInt(mainPin.style.top, 10) + mainPin.offsetHeight / 2;
     }
 
+
     return coords;
   }
+
 
   function mainPinMouseMoveHandler(evt) {
     evt.preventDefault();
@@ -73,6 +79,8 @@
       x: evt.clientX - startCoords.x,
       y: evt.clientY - startCoords.y
     };
+
+
 
     startCoords = {
       x: evt.clientX,
@@ -113,6 +121,7 @@
       y: evt.clientY
     };
 
+
     document.addEventListener('mousemove', mainPinMouseMoveHandler);
     document.addEventListener('mouseup', mainPinMouseUpHandler);
   }
@@ -128,6 +137,7 @@
     }
   }
 
+
   function setPinMouseUpCallback(callback) {
     mainPinMouseUpCallback = callback;
   }
@@ -135,6 +145,7 @@
   function setPinMouseMoveCallback(callback) {
     mainPinMouseMoveCallback = callback;
   }
+
 
   window.map = {
     fill: fillMap,
