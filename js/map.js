@@ -17,6 +17,33 @@
     pinsContainer.appendChild(element);
   }
 
+  function returnMainPinToStartPosition() {
+    mainPin.style.left = mainPinStartCoords.left;
+    mainPin.style.top = mainPinStartCoords.top;
+  }
+
+  function removePins() {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+  }
+
+  function removeCard() {
+    var activeCard = document.querySelector('.map__card');
+    if (activeCard) {
+      activeCard.remove();
+    }
+  }
+
+  function clearMap() {
+    removePins();
+    removeCard();
+    if (map.classList.contains('map--faded')) {
+      returnMainPinToStartPosition();
+    }
+  }
+
   function getMainPinCoordinates() {
     var coords = {
       x: parseInt(mainPin.style.left, 10) + mainPin.offsetWidth / 2,
@@ -43,18 +70,18 @@
       y: evt.clientY
     };
 
-    if (mainPin.offsetTop + shift.y < window.utils.Y_MIN) {
-      mainPin.style.top = window.utils.Y_MIN + 'px';
-    } else if (mainPin.offsetTop + shift.y > window.utils.Y_MAX) {
-      mainPin.style.top = window.utils.Y_MAX + 'px';
+    if (getMainPinCoordinates().y < window.utils.Y_MIN) {
+      mainPinElement.style.top = (window.utils.Y_MIN - mainPin.offsetHeight - MAIN_PIN_HEIGHT) + 'px';
+    } else if (getMainPinCoordinates().y > window.utils.Y_MAX) {
+      mainPinElement.style.top = (window.utils.Y_MAX - mainPin.offsetHeight - MAIN_PIN_HEIGHT) + 'px';
     } else {
-      mainPin.style.top = (mainPin.offsetTop + shift.y) + 'px';
+      mainPinElement.style.top = (mainPin.offsetTop + shift.y) + 'px';
     }
 
-    if (mainPin.offsetLeft + shift.x < window.utils.X_MIN) {
-      mainPin.style.left = window.utils.X_MIN + 'px';
-    } else if (mainPin.offsetLeft + shift.x > window.utils.X_MAX - mainPin.offsetWidth) {
-      mainPin.style.left = (window.utils.X_MAX - mainPin.offsetWidth) + 'px';
+    if (getMainPinCoordinates().x < window.utils.X_MIN) {
+      mainPin.style.left = (window.utils.X_MIN - mainPin.offsetWidth / 2) + 'px';
+    } else if (getMainPinCoordinates().x > window.utils.X_MAX) {
+      mainPin.style.left = (window.utils.X_MAX - mainPin.offsetWidth / 2) + 'px';
     } else {
       mainPin.style.left = (mainPin.offsetLeft + shift.x) + 'px';
     }
@@ -66,7 +93,7 @@
   }
 
   function toggleMapState() {
-    map.classList.toggle('map--faded');
+    mapElement.classList.toggle('map--faded');
   }
 
   function mainPinMouseDownHandler(evt) {
@@ -100,10 +127,9 @@
     mainPinMouseMoveCallback = callback;
   }
 
-  mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
-
   window.map = {
     fill: fillMap,
+    clear: clearMap,
     getMainPinCoordinates: getMainPinCoordinates,
     setPinMouseUpCallback: setPinMouseUpCallback,
     setPinMouseMoveCallback: setPinMouseMoveCallback,
