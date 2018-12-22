@@ -3,42 +3,69 @@
 (function () {
 
   var activeCard = null;
+  var adInfoObjects = [];
 
 
-  window.form.setAddress(window.map.getMainPinCoordinates());
+
+  window.adForm.setAddress(window.map.getMainPinCoordinates());
 
   window.map.setPinMouseUpCallback(activatePage);
 
   window.map.setPinMouseMoveCallback(function () {
-    window.form.setAddress(window.map.getMainPinCoordinates());
+    window.adForm.setAddress(window.map.getMainPinCoordinates());
   });
 
-  window.form.setSuccessHandlerCallback(function () {
+  window.adForm.setSubmitHandler(adFormSubmitHandler);
+
+  window.adForm.setResetFormCallback(function () {
     desactivatePage();
   });
 
-  window.form.setResetFormCallback(function () {
-    desactivatePage();
-  });
+
+
+  function adFormSubmitHandler(evt) {
+    window.backend.upload(new FormData(evt.currentTarget), function () {
+      desactivatePage();
+      window.message.showSuccessMessage();
+    }, function () {
+      window.message.showErrorMessage();
+    });
+  }
+
 
   function activatePage() {
     window.backend.load(loadSuccessHandler, loadErrorHandler);
   }
 
   function desactivatePage() {
-    window.map.clear();
     window.map.toggleState();
-    window.form.setAddress(window.map.getMainPinCoordinates());
-    window.form.reset();
-    window.form.toggleAll();
+    window.map.clear();
+    window.adForm.reset();
+    window.filtersForm.reset();
+    window.adForm.setAddress(window.map.getMainPinCoordinates());
+    window.adForm.toggle();
+    window.filtersForm.toggle();
     window.map.setPinMouseUpCallback(activatePage);
   }
 
-  function loadSuccessHandler(array) {
+  function updatePins(dataArray) {
+    var filteredPins = window.filtersForm.filter(dataArray);
+    var pinsFragment = prepareElements(filteredPins);
+    window.map.clear();
+    window.map.fill(pinsFragment);
+  }
+
+  function loadSuccessHandler(dataArray) {
+    adInfoObjects = dataArray;
     window.map.toggleState();
-    window.form.toggleAll();
-    var pins = prepareElements(array);
-    window.map.fill(pins);
+    window.adForm.toggle();
+    window.filtersForm.toggle();
+    window.filtersForm.setfilterChangeHandler(function () {
+      window.utils.debounce(function () {
+        updatePins(adInfoObjects);
+      });
+    });
+    updatePins(dataArray);
     window.map.setPinMouseUpCallback(null);
   }
 
@@ -58,8 +85,12 @@
   function prepareElements(dataArray) {
     var fragment = document.createDocumentFragment();
     dataArray.forEach(function (dataObject) {
-      var newPinElement = window.pin.createPin(dataObject, function (evt) {
+      var newPinElement = window.pin.create(dataObject, function (evt) {
         var target = evt.target.closest('.map__pin');
+        if (activeCard) {
+          activeCard.remove();
+          removeCardCallback();
+        }
         target.classList.add('map__pin--active');
         activeCard = window.card.create(dataObject, removeCardCallback);
         document.addEventListener('keyup', documentEscPressHandler);
@@ -72,7 +103,7 @@
     return fragment;
   }
 
-
+  // закрытие popup по Esc
   function documentEscPressHandler(evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
       activeCard.remove();
