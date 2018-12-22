@@ -2,7 +2,7 @@
 
 (function () {
 
-  var TYPES = {
+  var types = {
     palace: {
       translation: 'Дворец',
       minprice: 10000
@@ -22,25 +22,24 @@
   };
 
   var syncTimeSelects = ['timein', 'timeout'];
-
-  var adForm = document.querySelector('.ad-form');
-  var addressInput = adForm.querySelector('#address');
-  var typeElement = adForm.querySelector('#type');
-  var priceElement = adForm.querySelector('#price');
-  var timeFieldset = adForm.querySelector('.ad-form__element--time');
-  var roomsNumber = adForm.querySelector('#room_number');
-  var capacity = adForm.querySelector('#capacity');
+  var adFormElement = document.querySelector('.ad-form');
+  var addressInputElement = adFormElement.querySelector('#address');
+  var typeElement = adFormElement.querySelector('#type');
+  var priceElement = adFormElement.querySelector('#price');
+  var timeFieldsetElement = adFormElement.querySelector('.ad-form__element--time');
+  var roomsNumberElement = adFormElement.querySelector('#room_number');
+  var capacityElement = adFormElement.querySelector('#capacity');
   var resetFormCallback = null;
 
-  window.form.toggleInputState(adForm);
+  window.form.toggleInputState(adFormElement);
   setPriceParameters();
   checkRoomsAndCapacity();
 
   typeElement.addEventListener('change', typeSelectChangeHandler);
 
-  timeFieldset.addEventListener('change', function (evt) {
+  timeFieldsetElement.addEventListener('change', function (evt) {
     var target = evt.target;
-    var selects = timeFieldset.querySelectorAll('select');
+    var selects = timeFieldsetElement.querySelectorAll('select');
     for (var i = 0; i < selects.length; i++) {
       if (syncTimeSelects.indexOf(selects[i].id) !== -1) {
         selects[i].value = target.value;
@@ -48,32 +47,32 @@
     }
   });
 
-  roomsNumber.addEventListener('change', function () {
+  roomsNumberElement.addEventListener('change', function () {
     checkRoomsAndCapacity();
   });
 
-  capacity.addEventListener('change', function () {
+  capacityElement.addEventListener('change', function () {
     checkRoomsAndCapacity();
   });
-
-  function setResetFormCallback(callback) {
-    resetFormCallback = callback;
-  }
 
   function setSubmitHandler(formSubmitHandler) {
-    adForm.addEventListener('submit', function (evt) {
+    adFormElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
       formSubmitHandler(evt);
     });
   }
 
-  adForm.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
+  function setResetFormCallback(callback) {
+    resetFormCallback = callback;
+  }
+
+  adFormElement.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
     evt.preventDefault();
     resetFormCallback();
   });
 
   function setAddress(coords) {
-    addressInput.value = coords.x + ', ' + coords.y;
+    addressInputElement.value = coords.x + ', ' + coords.y;
   }
 
   function typeSelectChangeHandler() {
@@ -82,14 +81,14 @@
 
   function setPriceParameters() {
     var type = typeElement.value;
-    var minPrice = TYPES[type].minprice;
+    var minPrice = types[type].minprice;
     priceElement.placeholder = minPrice;
     priceElement.min = minPrice;
   }
 
   function checkRoomsAndCapacity() {
-    var roomsOptionValueLastDigit = +roomsNumber.value % 100;
-    var capacityOptionValue = +capacity.value;
+    var roomsOptionValueLastDigit = +roomsNumberElement.value % 100;
+    var capacityOptionValue = +capacityElement.value;
     var errorMessage = '';
 
     if (roomsOptionValueLastDigit < 2 && roomsOptionValueLastDigit !== capacityOptionValue) {
@@ -98,19 +97,19 @@
       errorMessage = 'Введите допустимое количество гостей';
     }
 
-    capacity.setCustomValidity(errorMessage);
+    capacityElement.setCustomValidity(errorMessage);
   }
 
   function resetAdForm() {
-    adForm.reset();
+    adFormElement.reset();
   }
 
   function toggleAdFormState() {
-    window.form.toggleState(adForm);
+    window.form.toggleState(adFormElement);
   }
 
   window.adForm = {
-    type: TYPES,
+    types: types,
     setAddress: setAddress,
     setResetFormCallback: setResetFormCallback,
     reset: resetAdForm,
