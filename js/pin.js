@@ -2,8 +2,8 @@
 
 (function () {
 
-  var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  var PIN_WIDTH = 50;
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
