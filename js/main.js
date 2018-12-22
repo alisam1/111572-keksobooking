@@ -5,8 +5,6 @@
   var activeCard = null;
   var adInfoObjects = [];
 
-
-
   window.adForm.setAddress(window.map.getMainPinCoordinates());
 
   window.map.setPinMouseUpCallback(activatePage);
@@ -20,8 +18,6 @@
   window.adForm.setResetFormCallback(function () {
     desactivatePage();
   });
-
-
 
   function adFormSubmitHandler(evt) {
     window.backend.upload(new FormData(evt.currentTarget), function () {
