@@ -19,9 +19,9 @@
   mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
 
 
-  mainPin.addEventListener('click', function() {
-  adForm.classList.remove('ad-form--disabled');
-});
+  mainPin.addEventListener('click', function () {
+    adForm.classList.remove('ad-form--disabled');
+  });
 
 
   function fillMap(element) {
@@ -79,8 +79,6 @@
       x: evt.clientX - startCoords.x,
       y: evt.clientY - startCoords.y
     };
-
-
 
     startCoords = {
       x: evt.clientX,

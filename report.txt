@@ -1,0 +1,4 @@
+
+> keksobooking@15.0.0 test /Users/m_mashnina/Documents/GitHub/111572-keksobooking
+> eslint js/
+

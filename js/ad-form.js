@@ -2,8 +2,7 @@
 
 (function () {
 
-  var syncTimeSelects = ['timein', 'timeout'];
-  var types = {
+  var TYPES = {
     palace: {
       translation: 'Дворец',
       minprice: 10000
@@ -21,6 +20,8 @@
       minprice: 0
     }
   };
+
+  var syncTimeSelects = ['timein', 'timeout'];
 
   var adForm = document.querySelector('.ad-form');
   var addressInput = adForm.querySelector('#address');
@@ -81,7 +82,7 @@
 
   function setPriceParameters() {
     var type = typeElement.value;
-    var minPrice = types[type].minprice;
+    var minPrice = TYPES[type].minprice;
     priceElement.placeholder = minPrice;
     priceElement.min = minPrice;
   }
@@ -109,7 +110,7 @@
   }
 
   window.adForm = {
-    types: types,
+    type: TYPES,
     setAddress: setAddress,
     setResetFormCallback: setResetFormCallback,
     reset: resetAdForm,
