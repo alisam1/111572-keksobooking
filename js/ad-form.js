@@ -29,6 +29,7 @@
   var timeFieldsetElement = adFormElement.querySelector('.ad-form__element--time');
   var roomsNumberElement = adFormElement.querySelector('#room_number');
   var capacityElement = adFormElement.querySelector('#capacity');
+  var capacitySelectItem = capacityElement.querySelectorAll('option');
   var resetFormCallback = null;
 
   window.form.toggleInputState(adFormElement);
@@ -85,6 +86,36 @@
     priceElement.placeholder = minPrice;
     priceElement.min = minPrice;
   }
+
+  var onCapacityPlacesChange = function () {
+    if (roomsNumberElement.value === '1') {
+      capacitySelectItem[0].setAttribute('disabled', true);
+      capacitySelectItem[1].setAttribute('disabled', true);
+      capacitySelectItem[2].removeAttribute('disabled');
+      capacitySelectItem[3].setAttribute('disabled', true);
+      capacityElement.value = '1';
+    } else if (roomsNumberElement.value === '2') {
+      capacitySelectItem[0].setAttribute('disabled', true);
+      capacitySelectItem[1].removeAttribute('disabled');
+      capacitySelectItem[2].removeAttribute('disabled');
+      capacitySelectItem[3].setAttribute('disabled', true);
+      capacityElement.value = '2';
+    } else if (roomsNumberElement.value === '3') {
+      capacitySelectItem[0].removeAttribute('disabled');
+      capacitySelectItem[1].removeAttribute('disabled');
+      capacitySelectItem[2].removeAttribute('disabled');
+      capacitySelectItem[3].setAttribute('disabled', true);
+      capacityElement.value = '3';
+    } else if (roomsNumberElement.value === '100') {
+      capacitySelectItem[0].setAttribute('disabled', true);
+      capacitySelectItem[1].setAttribute('disabled', true);
+      capacitySelectItem[2].setAttribute('disabled', true);
+      capacitySelectItem[3].removeAttribute('disabled');
+      capacityElement.value = '0';
+    }
+  };
+
+  roomsNumberElement.addEventListener('change', onCapacityPlacesChange);
 
   function checkRoomsAndCapacity() {
     var roomsOptionValueLastDigit = +roomsNumberElement.value % 100;
